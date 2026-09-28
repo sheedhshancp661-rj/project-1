@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Payment Page</title>
+    <style>
+        /* Basic reset and styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Main Container layout */
+        .checkout-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        @media (min-width: 650px) {
+            .checkout-container {
+                flex-direction: row;
+            }
+        }
+
+        /* Order Summary Side (Left) */
+        .order-summary {
+            background-color: #f1f5f9;
+            padding: 30px;
+            flex: 1;
+        }
+
+        .order-summary h3 {
+            margin-top: 0;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .total-price {
+            font-size: 18px;
+            font-weight: bold;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        /* Payment Details Side (Right) */
+        .payment-details {
+            padding: 30px;
+            flex: 1.2;
+        }
+
+        .payment-details h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            color: #64748b;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            color: #1e293b;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Submit Button styling */
+        .pay-btn {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .pay-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .secure-notice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-container">
+        <!-- Left Column: Order Summary -->
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-item">
+                <span>Premium Subscription</span>
+                <span>$49.00</span>
+            </div>
+            <div class="summary-item">
+                <span>Taxes & Fees</span>
+                <span>$4.50</span>
+            </div>
+            <div class="summary-item total-price">
+                <span>Total Due</span>
+                <span>$53.50</span>
+            </div>
+        </div>
+
+        <!-- Right Column: Payment Form -->
+        <div class="payment-details">
+            <h3>Payment Details</h3>
+            <form action="/process-payment" method="POST">
+                
+                <!-- Cardholder Name -->
+                <div class="form-group">
+                    <label for="cardname">Cardholder Name</label>
+                    <input type="text" id="cardname" name="cardname" placeholder="John Doe" required>
+                </div>
+
+                <!-- Card Number -->
+                <div class="form-group">
+                    <label for="cardnumber">Card Number</label>
+                    <input type="text" id="cardnumber" name="cardnumber" placeholder="1234 5678 9101 1121" inputmode="numeric" maxlength="19" required>
+                </div>
+
+                <!-- Expiry and CVV Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry">Expiry Date</label>
+                        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="password" id="cvv" name="cvv" placeholder="123" maxlength="4" inputmode="numeric" required>
+                    </div>
+                </div>
+
+                <!-- Pay Button -->
+                <button type="submit" class="pay-btn">Pay $53.50</button>
+                
+                <!-- Secure Checkout Badge Text -->
+                <div class="secure-notice">
+                    🔒 SSL Encrypted & Secure Checkout
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Payment Page</title>
+    <style>
+        /* Basic reset and styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Main Container layout */
+        .checkout-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        @media (min-width: 650px) {
+            .checkout-container {
+                flex-direction: row;
+            }
+        }
+
+        /* Order Summary Side (Left) */
+        .order-summary {
+            background-color: #f1f5f9;
+            padding: 30px;
+            flex: 1;
+        }
+
+        .order-summary h3 {
+            margin-top: 0;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .total-price {
+            font-size: 18px;
+            font-weight: bold;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        /* Payment Details Side (Right) */
+        .payment-details {
+            padding: 30px;
+            flex: 1.2;
+        }
+
+        .payment-details h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            color: #64748b;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+            color: #1e293b;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Submit Button styling */
+        .pay-btn {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+        }
+
+        .pay-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .secure-notice {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-container">
+        <!-- Left Column: Order Summary -->
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-item">
+                <span>Premium Subscription</span>
+                <span>$49.00</span>
+            </div>
+            <div class="summary-item">
+                <span>Taxes & Fees</span>
+                <span>$4.50</span>
+            </div>
+            <div class="summary-item total-price">
+                <span>Total Due</span>
+                <span>$53.50</span>
+            </div>
+        </div>
+
+        <!-- Right Column: Payment Form -->
+        <div class="payment-details">
+            <h3>Payment Details</h3>
+            <form action="/process-payment" method="POST">
+                
+                <!-- Cardholder Name -->
+                <div class="form-group">
+                    <label for="cardname">Cardholder Name</label>
+                    <input type="text" id="cardname" name="cardname" placeholder="John Doe" required>
+                </div>
+
+                <!-- Card Number -->
+                <div class="form-group">
+                    <label for="cardnumber">Card Number</label>
+                    <input type="text" id="cardnumber" name="cardnumber" placeholder="1234 5678 9101 1121" inputmode="numeric" maxlength="19" required>
+                </div>
+
+                <!-- Expiry and CVV Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="expiry">Expiry Date</label>
+                        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="password" id="cvv" name="cvv" placeholder="123" maxlength="4" inputmode="numeric" required>
+                    </div>
+                </div>
+
+                <!-- Pay Button -->
+                <button type="submit" class="pay-btn">Pay $53.50</button>
+                
+                <!-- Secure Checkout Badge Text -->
+                <div class="secure-notice">
+                    🔒 SSL Encrypted & Secure Checkout
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
+
